@@ -1,10 +1,20 @@
-import React, { useState, useRef} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { v4 } from 'uuid';
 import TodoList from './TodoList';
 
 function App() {
   const [todos, setTodos] = useState([]);
   const InputValue = useRef();
+  const LOCAL_STORAGE_KEY="keyItem";
+
+  useEffect(()=> {
+    const storedTodos=JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if (storedTodos) setTodos(storedTodos);
+  }, []);
+
+  useEffect(()=> {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
+  }, [todos]);
 
   const AddTodos = e => {
     const name = InputValue.current.value;
@@ -15,6 +25,7 @@ function App() {
     }
     InputValue.current.value=null;
   }
+
   return (
     <>
     <TodoList todos = {todos} />
