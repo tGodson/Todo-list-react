@@ -33,13 +33,18 @@ function App() {
     InputValue.current.value=null;
   }
 
+  const clearTodo = () => {
+    const newTodos = todos.filter(todo => !todo.complete);
+    setTodos(newTodos);
+  }
+
   return (
     <>
     <TodoList todos = {todos} toggleTodo={toggleTodo}/>
     <input type="text" ref={InputValue}/>
     <button onClick={AddTodos}>Add Todo</button>
-    <button>Clear Complete</button>
-    <div>0 todo left</div>
+    <button onClick={clearTodo}>Clear Complete</button>
+    <div>{todos.filter(todo => !todo.complete).length} todo left</div>
     </>
   )
 }
